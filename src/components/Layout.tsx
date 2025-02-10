@@ -1,8 +1,8 @@
 
-import { Bell, Home, MessageSquare, Users, Calendar, User } from "lucide-react";
+import { Bell, Home, MessageSquare, Users, Calendar, User, LogOut } from "lucide-react";
 import { SidebarProvider, Sidebar, SidebarContent, SidebarTrigger } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { useAuth } from "@/contexts/AuthContext";
 
 const navItems = [
   { icon: Home, label: "Home", href: "/" },
@@ -13,6 +13,8 @@ const navItems = [
 ];
 
 export default function Layout({ children }: { children: React.ReactNode }) {
+  const { signOut } = useAuth();
+
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-gray-50">
@@ -31,6 +33,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                     <span>{item.label}</span>
                   </a>
                 ))}
+                <button
+                  onClick={signOut}
+                  className="w-full flex items-center px-3 py-2 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors"
+                >
+                  <LogOut className="w-5 h-5 mr-3 text-social-primary" />
+                  <span>Sign Out</span>
+                </button>
               </nav>
             </div>
           </SidebarContent>
