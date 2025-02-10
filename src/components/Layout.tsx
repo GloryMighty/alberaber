@@ -1,5 +1,6 @@
 
 import { Bell, Home, MessageSquare, Users, Calendar, User, LogOut } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
 import { SidebarProvider, Sidebar, SidebarContent, SidebarTrigger } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
@@ -14,6 +15,7 @@ const navItems = [
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const { signOut } = useAuth();
+  const location = useLocation();
 
   return (
     <SidebarProvider>
@@ -24,14 +26,20 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <h1 className="text-2xl font-bold text-social-primary mb-8">DigiCard</h1>
               <nav className="space-y-2">
                 {navItems.map((item) => (
-                  <a
+                  <Link
                     key={item.href}
-                    href={item.href}
-                    className="flex items-center px-3 py-2 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors"
+                    to={item.href}
+                    className={`flex items-center px-3 py-2 rounded-lg transition-colors ${
+                      location.pathname === item.href
+                        ? "bg-social-primary text-white"
+                        : "text-gray-700 hover:bg-gray-100"
+                    }`}
                   >
-                    <item.icon className="w-5 h-5 mr-3 text-social-primary" />
+                    <item.icon className={`w-5 h-5 mr-3 ${
+                      location.pathname === item.href ? "text-white" : "text-social-primary"
+                    }`} />
                     <span>{item.label}</span>
-                  </a>
+                  </Link>
                 ))}
                 <button
                   onClick={signOut}
@@ -53,7 +61,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               </Button>
               <Button variant="ghost" size="icon" className="rounded-full">
                 <div className="w-8 h-8 rounded-full bg-social-primary text-white flex items-center justify-center">
-                  B
+                  {useAuth().user?.email?.charAt(0).toUpperCase()}
                 </div>
               </Button>
             </div>
