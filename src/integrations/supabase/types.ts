@@ -209,9 +209,15 @@ export type Database = {
           created_at: string
           full_name: string | null
           id: string
+          instagram_username: string | null
           job_title: string | null
+          phone_number: string | null
+          snapchat_username: string | null
+          telegram_username: string | null
+          twitter_username: string | null
           updated_at: string
           username: string | null
+          whatsapp_number: string | null
         }
         Insert: {
           avatar_url?: string | null
@@ -220,9 +226,15 @@ export type Database = {
           created_at?: string
           full_name?: string | null
           id: string
+          instagram_username?: string | null
           job_title?: string | null
+          phone_number?: string | null
+          snapchat_username?: string | null
+          telegram_username?: string | null
+          twitter_username?: string | null
           updated_at?: string
           username?: string | null
+          whatsapp_number?: string | null
         }
         Update: {
           avatar_url?: string | null
@@ -231,9 +243,15 @@ export type Database = {
           created_at?: string
           full_name?: string | null
           id?: string
+          instagram_username?: string | null
           job_title?: string | null
+          phone_number?: string | null
+          snapchat_username?: string | null
+          telegram_username?: string | null
+          twitter_username?: string | null
           updated_at?: string
           username?: string | null
+          whatsapp_number?: string | null
         }
         Relationships: []
       }
