@@ -70,41 +70,131 @@ export type Database = {
           },
         ]
       }
-      pdf_files: {
+      connections: {
         Row: {
-          created_at: string
-          file_size: number
-          filename: string
+          connected_user_id: string | null
+          created_at: string | null
           id: string
-          page_count: number | null
-          storage_path: string
-          updated_at: string
-          user_id: string
+          status: string
+          updated_at: string | null
+          user_id: string | null
         }
         Insert: {
-          created_at?: string
-          file_size: number
-          filename: string
+          connected_user_id?: string | null
+          created_at?: string | null
           id?: string
-          page_count?: number | null
-          storage_path: string
-          updated_at?: string
-          user_id: string
+          status: string
+          updated_at?: string | null
+          user_id?: string | null
         }
         Update: {
-          created_at?: string
-          file_size?: number
-          filename?: string
+          connected_user_id?: string | null
+          created_at?: string | null
           id?: string
-          page_count?: number | null
-          storage_path?: string
-          updated_at?: string
-          user_id?: string
+          status?: string
+          updated_at?: string | null
+          user_id?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "pdf_files_user_id_fkey"
+            foreignKeyName: "connections_connected_user_id_fkey"
+            columns: ["connected_user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "connections_user_id_fkey"
             columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      events: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          end_time: string
+          id: string
+          location: string | null
+          start_time: string
+          title: string
+          updated_at: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          end_time: string
+          id?: string
+          location?: string | null
+          start_time: string
+          title: string
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          end_time?: string
+          id?: string
+          location?: string | null
+          start_time?: string
+          title?: string
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "events_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      messages: {
+        Row: {
+          content: string
+          created_at: string | null
+          id: string
+          read: boolean | null
+          receiver_id: string | null
+          sender_id: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          content: string
+          created_at?: string | null
+          id?: string
+          read?: boolean | null
+          receiver_id?: string | null
+          sender_id?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          content?: string
+          created_at?: string | null
+          id?: string
+          read?: boolean | null
+          receiver_id?: string | null
+          sender_id?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "messages_receiver_id_fkey"
+            columns: ["receiver_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "messages_sender_id_fkey"
+            columns: ["sender_id"]
             isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
@@ -113,51 +203,39 @@ export type Database = {
       }
       profiles: {
         Row: {
+          avatar_url: string | null
+          bio: string | null
+          company: string | null
           created_at: string
+          full_name: string | null
           id: string
+          job_title: string | null
           updated_at: string
+          username: string | null
         }
         Insert: {
+          avatar_url?: string | null
+          bio?: string | null
+          company?: string | null
           created_at?: string
+          full_name?: string | null
           id: string
+          job_title?: string | null
           updated_at?: string
+          username?: string | null
         }
         Update: {
+          avatar_url?: string | null
+          bio?: string | null
+          company?: string | null
           created_at?: string
+          full_name?: string | null
           id?: string
+          job_title?: string | null
           updated_at?: string
+          username?: string | null
         }
         Relationships: []
-      }
-      session_pdfs: {
-        Row: {
-          pdf_id: string
-          session_id: string
-        }
-        Insert: {
-          pdf_id: string
-          session_id: string
-        }
-        Update: {
-          pdf_id?: string
-          session_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "session_pdfs_pdf_id_fkey"
-            columns: ["pdf_id"]
-            isOneToOne: false
-            referencedRelation: "pdf_files"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "session_pdfs_session_id_fkey"
-            columns: ["session_id"]
-            isOneToOne: false
-            referencedRelation: "analysis_sessions"
-            referencedColumns: ["id"]
-          },
-        ]
       }
     }
     Views: {
