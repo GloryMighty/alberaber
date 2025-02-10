@@ -9,98 +9,155 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      analysis_sessions: {
+        Row: {
+          created_at: string
+          id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "analysis_sessions_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      chat_messages: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          role: string
+          session_id: string | null
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          role: string
+          session_id?: string | null
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          role?: string
+          session_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chat_messages_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "analysis_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      pdf_files: {
+        Row: {
+          created_at: string
+          file_size: number
+          filename: string
+          id: string
+          page_count: number | null
+          storage_path: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          file_size: number
+          filename: string
+          id?: string
+          page_count?: number | null
+          storage_path: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          file_size?: number
+          filename?: string
+          id?: string
+          page_count?: number | null
+          storage_path?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pdf_files_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
-          age: number | null
-          city: string | null
-          country: string | null
           created_at: string
-          full_name: string | null
           id: string
           updated_at: string
         }
         Insert: {
-          age?: number | null
-          city?: string | null
-          country?: string | null
           created_at?: string
-          full_name?: string | null
           id: string
           updated_at?: string
         }
         Update: {
-          age?: number | null
-          city?: string | null
-          country?: string | null
           created_at?: string
-          full_name?: string | null
           id?: string
           updated_at?: string
         }
         Relationships: []
       }
-      user_credits: {
+      session_pdfs: {
         Row: {
-          created_at: string
-          id: string
-          tokens: number
-          updated_at: string
+          pdf_id: string
+          session_id: string
         }
         Insert: {
-          created_at?: string
-          id: string
-          tokens?: number
-          updated_at?: string
+          pdf_id: string
+          session_id: string
         }
         Update: {
-          created_at?: string
-          id?: string
-          tokens?: number
-          updated_at?: string
+          pdf_id?: string
+          session_id?: string
         }
-        Relationships: []
-      }
-      user_preferences: {
-        Row: {
-          age: number | null
-          body_type: string | null
-          created_at: string
-          gender: string | null
-          height: number | null
-          id: string
-          lifestyle: string | null
-          match_name: string | null
-          relationship_goal: string | null
-          rizz_style: string | null
-          updated_at: string
-        }
-        Insert: {
-          age?: number | null
-          body_type?: string | null
-          created_at?: string
-          gender?: string | null
-          height?: number | null
-          id: string
-          lifestyle?: string | null
-          match_name?: string | null
-          relationship_goal?: string | null
-          rizz_style?: string | null
-          updated_at?: string
-        }
-        Update: {
-          age?: number | null
-          body_type?: string | null
-          created_at?: string
-          gender?: string | null
-          height?: number | null
-          id?: string
-          lifestyle?: string | null
-          match_name?: string | null
-          relationship_goal?: string | null
-          rizz_style?: string | null
-          updated_at?: string
-        }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "session_pdfs_pdf_id_fkey"
+            columns: ["pdf_id"]
+            isOneToOne: false
+            referencedRelation: "pdf_files"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "session_pdfs_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "analysis_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
@@ -110,7 +167,8 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      body_type: "skinny" | "bbl" | "thick" | "slim thick" | "snack"
+      relationship_goal: "long-term" | "short-term" | "one-night" | "unknown"
     }
     CompositeTypes: {
       [_ in never]: never
