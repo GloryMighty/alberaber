@@ -164,13 +164,11 @@ export default function HeroGeometric({
               <span className="text-2xl font-bold text-white">DigiCard</span>
             </div>
             <div className="flex items-center space-x-4">
-              <Link to="/auth">
-                <Button 
-                  variant="outline" 
-                  className="text-white border-white/30 hover:bg-white/10 transition-colors"
-                >
-                  Sign Up
-                </Button>
+              <Link to="/teams" className="text-white/70 hover:text-white transition-colors mr-2">
+                Teams
+              </Link>
+              <Link to="/pricing" className="text-white/70 hover:text-white transition-colors mr-4">
+                Pricing
               </Link>
               <Link to="/auth">
                 <Button 

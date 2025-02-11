@@ -36,6 +36,29 @@
 - Progress indicator for current section
 - Accessibility-focused design
 
+## New Toolbar Implementation
+- New toolbar design with a sticky bottom bar
+- Bottom bar contains quick action buttons
+- Quick action buttons include:
+  - Create new message
+  - View notifications
+  - Open sidebar
+- New toolbar also includes a floating action button
+- Floating action button triggers a modal for creating new content
+
+## Toolbar Implementation
+- Glass-effect toolbar with half-transparent background
+- Fixed positioning at the top of the page
+- Responsive design with backdrop blur
+- Navigation links:
+  - DigiCard logo on the left
+  - Teams link
+  - Pricing link
+  - Get Started button for authentication
+- Animated entrance with Framer Motion
+- Consistent dark theme aesthetic
+- Hover effects for interactive elements
+
 ## Potential Areas of Improvement
 - Code modularity
 - Component reusability
