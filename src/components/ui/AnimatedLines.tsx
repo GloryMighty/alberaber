@@ -35,7 +35,7 @@ function FloatingPaths({ position }: { position: number }) {
               pathOffset: [0, 1, 0],
             }}
             transition={{
-              duration: 20 + Math.random() * 10,
+              duration: 10 + Math.random() * 10,
               repeat: Number.POSITIVE_INFINITY,
               ease: "linear",
             }}
@@ -47,7 +47,7 @@ function FloatingPaths({ position }: { position: number }) {
 }
 
 export default function BackgroundPaths({
-  title = "Connect, Network, Collaborate",
+  title = "Contact, Network, Collaborate",
 }: {
   title?: string
 }) {
