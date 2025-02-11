@@ -1,134 +1,153 @@
-# Landing Page and Routing Implementation Strategy
+# Landing Page Implementation Plan
 
-## Project Context
-- **Framework**: React with TypeScript
-- **Routing**: React Router
-- **State Management**: React Context
-- **Styling**: Tailwind CSS
-- **Animation**: Framer Motion
+## Navigation Strategy
+### Scroll Navigation Approach
+- Implement a smooth, vertical scrolling experience
+- Create 4 distinct screen sections
+- Develop intuitive navigation mechanism
 
-## Current Application Structure
-- Existing protected routes
-- Authentication system in place
-- Multiple page components ready
+## Color Palette Strategy
 
-## Routing Implementation Strategy
+### Section Color Breakdown
+1. First Screen (Hero Section) -- components/ui/hero-geometric.tsx !!! Already EXISTS!!! 
+   - If you want to make any changes - reference components/ui/hero-geometric.tsx file. 
+   - Keep original design
+   - Don't change anything yet.
 
-### 1. Landing Page Component (`/src/pages/Landing.tsx`)
-#### Key Requirements
-- Full-screen scrollable design
-- 4 distinct sections
-- Responsive layout
-- Framer Motion animations
-- Clear value proposition
-- "Sign Up" call-to-action
+2. Second Screen (Communication Advantages)
+   - Primary Color: `social-primary`
+   - Background: Soft variant of primary color (e.g., `bg-social-primary/10`)
+   - Text: Contrasting colors for readability
+   - Accent colors from application's existing palette
 
-#### Component Structure
-- Hero Section
-- Features Showcase
-- User Journey Visualization
-- Social Proof & CTA
+3. Third Screen (Detailed Features)
+   - Use complementary colors from `social-primary`
+   - Create visual hierarchy with color variations
+   - Ensure accessibility and readability
+   - Use subtle gradients or color transitions
 
-### 2. Routing Modifications in `App.tsx`
+4. Bottom Screen (Legal Section)
+   - Neutral, professional color scheme
+   - Muted tones
+   - High contrast for legal text readability
+
+### Color Accessibility Considerations
+- Maintain WCAG 2.1 color contrast ratios
+- Test color combinations for readability
+- Support color-blind users
+- Implement color theme adaptability
+
+## Technical Implementation Details
+
+### Navigation Components
+1. Scroll Progress Indicator
+   - Color-coded section indicators
+   - Highlight current section with `social-primary`
+   - Minimal, non-intrusive design
+
+2. Scroll Tracking Mechanism
+   - Develop a custom React hook `useScrollNavigation`
+   - Track current scroll position
+   - Manage section transitions
+   - Prevent over-scrolling
+
+### Screen Section Structure
 ```typescript
-<Routes>
-  {/* New Landing Page as Root */}
-  <Route path="/" element={<Landing />} />
-  
-  {/* Existing Authentication Route */}
-  <Route path="/auth" element={<Auth />} />
-  
-  {/* Home Page (Previously Index) with Protection */}
-  <Route
-    path="/home"
-    element={
-      <ProtectedRoute>
-        <Index />
-      </ProtectedRoute>
-    }
-  />
-  
-  {/* Existing Protected Routes Remain */}
-</Routes>
+interface LandingPageSection {
+  id: string;
+  title: string;
+  component: React.FC;
+  backgroundColor?: string;
+  primaryColor?: string;
+}
+
+const landingPageSections: LandingPageSection[] = [
+  {
+    id: 'hero',
+    title: 'Welcome Screen',
+    component: HeroSection,
+    backgroundColor: 'bg-white'
+  },
+  {
+    id: 'advantages',
+    title: 'Communication Benefits',
+    component: AdvantagesSection,
+    backgroundColor: 'bg-social-primary/10',
+    primaryColor: 'text-social-primary'
+  },
+  {
+    id: 'features',
+    title: 'Detailed Features',
+    component: FeaturesSection,
+    backgroundColor: 'bg-gray-50',
+    primaryColor: 'text-social-primary'
+  },
+  {
+    id: 'legal',
+    title: 'Terms and Policies',
+    component: LegalSection,
+    backgroundColor: 'bg-gray-100'
+  }
+]
 ```
 
-### 3. Authentication Flow Updates
-#### In `Auth.tsx`
-- Modify redirect after successful login
-- Redirect to `/home` instead of `/`
+### Scroll Navigation Hook
 ```typescript
-if (user) {
-  return <Navigate to="/home" replace />;
+function useScrollNavigation(sections: LandingPageSection[]) {
+  // Manage current section
+  // Handle smooth scrolling
+  // Provide navigation methods
 }
 ```
 
-### 4. Toolbar Component
-#### Features
-- Responsive design
-- Logo
-- "Sign Up" button
-- Subtle Framer Motion animations
-- Consistent styling with app theme
+### Scroll Buttons Implementation
+1. Next Section Button
+   - Smooth scroll to next section
+   - Animated transition
+   - Accessibility support
 
-### 5. Performance Optimization
-- Code splitting for Landing page
-- Lazy loading of heavy assets
-- Optimize Framer Motion animations
-- Implement skeleton loading states
+2. Previous Section Button
+   - Return to previous section
+   - Smooth reverse scrolling
 
-### 6. Accessibility Considerations
-- Semantic HTML structure
+### Performance Considerations
+- Lazy load section components
+- Minimize re-renders
+- Use `React.memo` for section components
+- Implement scroll performance optimizations
+
+## Accessibility Features
 - Keyboard navigation support
-- ARIA labels and roles
-- Reduced motion options
-- Meta tags for SEO
+- Screen reader compatibility
+- ARIA labels for navigation elements
+- High contrast mode support
 
-## Technical Implementation Phases
+## Error Handling
+- Graceful handling of scroll navigation
+- Fallback for browsers with limited scroll support
+- Provide alternative navigation methods
 
-### Phase 1: Landing Page Structure
-1. Create basic component skeleton
-2. Implement responsive grid
-3. Add placeholder content
-4. Basic routing integration
+## Testing Strategy
+1. Unit Tests
+   - Navigation hook functionality
+   - Section component rendering
+   - Scroll tracking accuracy
 
-### Phase 2: Animations and Interactions
-1. Add Framer Motion scroll animations
-2. Implement interactive elements
-3. Create smooth transitions
-4. Optimize performance
+2. Integration Tests
+   - Smooth section transitions
+   - Navigation button behaviors
+   - Responsive design checks
 
-### Phase 3: Toolbar and Navigation
-1. Design responsive toolbar
-2. Implement "Sign Up" button
-3. Add navigation logic
-4. Style consistency checks
+3. Accessibility Compliance
+   - WCAG 2.1 level AA testing
+   - Screen reader compatibility
 
-### Phase 4: Testing and Refinement
-1. Cross-browser testing
-2. Responsive design verification
-3. Performance profiling
-4. Accessibility audit
+## Future Improvements
+- Add parallax scrolling effects
+- Implement more advanced scroll animations
+- Create more interactive section transitions
 
-## Dependencies
-- `react-router-dom`
-- `framer-motion`
-- `@tanstack/react-query`
-- Tailwind CSS
-- Custom UI components
-
-## Potential Challenges
-- Maintaining performance with animations
-- Ensuring cross-device compatibility
-- Balancing design and functionality
-- Smooth state management during navigation
-
-## Success Criteria
-- Seamless user flow from landing to authentication
-- Engaging and informative landing page
-- Responsive and accessible design
-- Minimal performance overhead
-- Clear value proposition
-
-## Timestamp of Strategy
-- Created: 2025-02-11T16:23:11+03:00
-- Status: Implementation Planning Phase
+## Development Notes
+- Keep code modular and easy to understand
+- Focus on clean, simple implementation
+- Prioritize user experience and performance

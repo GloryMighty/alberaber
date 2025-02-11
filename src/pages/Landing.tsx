@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import HeroGeometric from '@/components/hero-geometric';
+import HeroGeometric from '@/components/HeroSection';
 
 const LandingWithGeometricBackground: React.FC = () => {
   // Animation variants for smooth scroll-based animations
