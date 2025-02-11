@@ -4,12 +4,14 @@ import { useAuth } from "@/contexts/AuthContext";
 import Layout from "@/components/Layout";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Edit, Share2, Twitter, Instagram, Phone, MessageSquare } from "lucide-react";
+import { Edit, Share2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import ProfileAvatar from "@/components/profile/ProfileAvatar";
+import ProfileSocialLinks from "@/components/profile/ProfileSocialLinks";
 
 const Profile = () => {
   const { user } = useAuth();
@@ -45,53 +47,44 @@ const Profile = () => {
         .eq("id", user?.id)
         .single();
 
-      if (error) throw error;
+      if (error) {
+        // If no profile exists, create one
+        if (error.code === 'PGRST116') {
+          const { error: insertError } = await supabase
+            .from("profiles")
+            .insert({ id: user?.id })
+            .single();
+
+          if (insertError) throw insertError;
+          
+          // Fetch the newly created profile
+          const { data: newProfile, error: fetchError } = await supabase
+            .from("profiles")
+            .select("*")
+            .eq("id", user?.id)
+            .single();
+
+          if (fetchError) throw fetchError;
+          if (newProfile) setProfileData(newProfile);
+        } else {
+          throw error;
+        }
+      }
       if (data) {
         setProfileData(data);
       }
     } catch (error: any) {
       console.error("Error fetching profile:", error.message);
-    }
-  };
-
-  const handlePhotoUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    try {
-      const file = event.target.files?.[0];
-      if (!file) return;
-
-      setLoading(true);
-      const fileExt = file.name.split(".").pop();
-      const filePath = `${user?.id}/${crypto.randomUUID()}.${fileExt}`;
-
-      const { error: uploadError } = await supabase.storage
-        .from("profile-photos")
-        .upload(filePath, file);
-
-      if (uploadError) throw uploadError;
-
-      const { data: { publicUrl } } = supabase.storage
-        .from("profile-photos")
-        .getPublicUrl(filePath);
-
-      await supabase
-        .from("profiles")
-        .update({ avatar_url: publicUrl })
-        .eq("id", user?.id);
-
-      setProfileData(prev => ({ ...prev, avatar_url: publicUrl }));
-      toast({
-        title: "Success",
-        description: "Profile photo updated successfully",
-      });
-    } catch (error: any) {
       toast({
         variant: "destructive",
         title: "Error",
-        description: error.message,
+        description: "Failed to load profile data",
       });
-    } finally {
-      setLoading(false);
     }
+  };
+
+  const handleProfileUpdate = (field: string, value: string) => {
+    setProfileData(prev => ({ ...prev, [field]: value }));
   };
 
   const handleSave = async () => {
@@ -99,8 +92,11 @@ const Profile = () => {
       setLoading(true);
       const { error } = await supabase
         .from("profiles")
-        .update(profileData)
-        .eq("id", user?.id);
+        .upsert({
+          id: user?.id,
+          ...profileData,
+          updated_at: new Date().toISOString(),
+        });
 
       if (error) throw error;
 
@@ -126,35 +122,16 @@ const Profile = () => {
         <Card className="p-4 md:p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
           <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-6 mb-6">
             <div className="flex flex-col md:flex-row items-center md:space-x-6 space-y-4 md:space-y-0">
-              <div className="relative group">
-                <div className="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden bg-social-primary text-white flex items-center justify-center text-4xl">
-                  {profileData.avatar_url ? (
-                    <img
-                      src={profileData.avatar_url}
-                      alt="Profile"
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    user?.email?.charAt(0).toUpperCase()
-                  )}
-                </div>
-                {isEditing && (
-                  <label className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-full cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity">
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={handlePhotoUpload}
-                      className="hidden"
-                    />
-                    <span className="text-white text-sm">Change Photo</span>
-                  </label>
-                )}
-              </div>
+              <ProfileAvatar 
+                avatarUrl={profileData.avatar_url}
+                isEditing={isEditing}
+                onAvatarUpdate={(url) => handleProfileUpdate("avatar_url", url)}
+              />
               <div>
                 {isEditing ? (
                   <Input
                     value={profileData.full_name}
-                    onChange={(e) => setProfileData(prev => ({ ...prev, full_name: e.target.value }))}
+                    onChange={(e) => handleProfileUpdate("full_name", e.target.value)}
                     placeholder="Full Name"
                     className="mb-2 max-w-[300px]"
                   />
@@ -189,7 +166,7 @@ const Profile = () => {
               {isEditing ? (
                 <Textarea
                   value={profileData.bio || ""}
-                  onChange={(e) => setProfileData(prev => ({ ...prev, bio: e.target.value }))}
+                  onChange={(e) => handleProfileUpdate("bio", e.target.value)}
                   placeholder="Write something about yourself..."
                   className="min-h-[100px] w-full"
                 />
@@ -200,102 +177,11 @@ const Profile = () => {
 
             <section className="grid grid-cols-1 gap-6">
               <h2 className="text-lg font-semibold mb-2">Contact & Social Media</h2>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-4">
-                  <div className="flex items-center space-x-2">
-                    <Twitter className="w-5 h-5 text-social-primary flex-shrink-0" />
-                    {isEditing ? (
-                      <Input
-                        value={profileData.twitter_username || ""}
-                        onChange={(e) => setProfileData(prev => ({ ...prev, twitter_username: e.target.value }))}
-                        placeholder="Twitter Username"
-                      />
-                    ) : (
-                      <span className="text-gray-600">
-                        {profileData.twitter_username || "Not added"}
-                      </span>
-                    )}
-                  </div>
-                  
-                  <div className="flex items-center space-x-2">
-                    <Instagram className="w-5 h-5 text-social-primary flex-shrink-0" />
-                    {isEditing ? (
-                      <Input
-                        value={profileData.instagram_username || ""}
-                        onChange={(e) => setProfileData(prev => ({ ...prev, instagram_username: e.target.value }))}
-                        placeholder="Instagram Username"
-                      />
-                    ) : (
-                      <span className="text-gray-600">
-                        {profileData.instagram_username || "Not added"}
-                      </span>
-                    )}
-                  </div>
-                  
-                  <div className="flex items-center space-x-2">
-                    <MessageSquare className="w-5 h-5 text-social-primary flex-shrink-0" />
-                    {isEditing ? (
-                      <Input
-                        value={profileData.telegram_username || ""}
-                        onChange={(e) => setProfileData(prev => ({ ...prev, telegram_username: e.target.value }))}
-                        placeholder="Telegram Username"
-                      />
-                    ) : (
-                      <span className="text-gray-600">
-                        {profileData.telegram_username || "Not added"}
-                      </span>
-                    )}
-                  </div>
-                </div>
-
-                <div className="space-y-4">
-                  <div className="flex items-center space-x-2">
-                    <Phone className="w-5 h-5 text-social-primary flex-shrink-0" />
-                    {isEditing ? (
-                      <Input
-                        value={profileData.phone_number || ""}
-                        onChange={(e) => setProfileData(prev => ({ ...prev, phone_number: e.target.value }))}
-                        placeholder="Phone Number"
-                      />
-                    ) : (
-                      <span className="text-gray-600">
-                        {profileData.phone_number || "Not added"}
-                      </span>
-                    )}
-                  </div>
-                  
-                  <div className="flex items-center space-x-2">
-                    <MessageSquare className="w-5 h-5 text-social-primary flex-shrink-0" />
-                    {isEditing ? (
-                      <Input
-                        value={profileData.whatsapp_number || ""}
-                        onChange={(e) => setProfileData(prev => ({ ...prev, whatsapp_number: e.target.value }))}
-                        placeholder="WhatsApp Number"
-                      />
-                    ) : (
-                      <span className="text-gray-600">
-                        {profileData.whatsapp_number || "Not added"}
-                      </span>
-                    )}
-                  </div>
-                  
-                  <div className="flex items-center space-x-2">
-                    <MessageSquare className="w-5 h-5 text-social-primary flex-shrink-0" />
-                    {isEditing ? (
-                      <Input
-                        value={profileData.snapchat_username || ""}
-                        onChange={(e) => setProfileData(prev => ({ ...prev, snapchat_username: e.target.value }))}
-                        placeholder="Snapchat Username"
-                      />
-                    ) : (
-                      <span className="text-gray-600">
-                        {profileData.snapchat_username || "Not added"}
-                      </span>
-                    )}
-                  </div>
-                </div>
-              </div>
+              <ProfileSocialLinks
+                profileData={profileData}
+                isEditing={isEditing}
+                onProfileUpdate={handleProfileUpdate}
+              />
             </section>
           </div>
         </Card>
