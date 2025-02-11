@@ -1,7 +1,6 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Button } from "@/components/ui/button"
 
 function FloatingPaths({ position }: { position: number }) {
   const paths = Array.from({ length: 36 }, (_, i) => ({
@@ -19,7 +18,7 @@ function FloatingPaths({ position }: { position: number }) {
 
   return (
     <div className="absolute inset-0 pointer-events-none">
-      <svg className="w-full h-full text-slate-950 dark:text-white" viewBox="0 0 696 316" fill="none">
+      <svg className="w-full h-full text-slate-950 dark:text-white" viewBox="0 0 696 516" fill="none">
         <title>Connect, Network, Collaborate</title>
         {paths.map((path) => (
           <motion.path
@@ -28,14 +27,14 @@ function FloatingPaths({ position }: { position: number }) {
             stroke="currentColor"
             strokeWidth={path.width}
             strokeOpacity={0.1 + path.id * 0.03}
-            initial={{ pathLength: 0.3, opacity: 0.6 }}
+            initial={{ pathLength: 0.5, opacity: 0.5 }}
             animate={{
               pathLength: 1,
-              opacity: [0.3, 0.6, 0.3],
-              pathOffset: [0, 1, 0],
+              opacity: [0.2, 0.6, 0.3],
+              pathOffset: [2.5, 1, 2],
             }}
             transition={{
-              duration: 10 + Math.random() * 10,
+              duration: 30 + Math.random() * 5,
               repeat: Number.POSITIVE_INFINITY,
               ease: "linear",
             }}
