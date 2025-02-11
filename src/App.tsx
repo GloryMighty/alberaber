@@ -37,20 +37,62 @@ const NavigationButtons: React.FC<{
   
   return (
     <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-50 flex space-x-4">
-      {currentIndex > 0 && (
-        <button 
-          onClick={goToPreviousSection}
-          className="bg-social-primary text-white px-4 py-2 rounded-full shadow-md hover:bg-opacity-90 transition"
-        >
-          Previous
-        </button>
-      )}
       {currentIndex < sections.length - 1 && (
         <button 
           onClick={goToNextSection}
-          className="bg-social-primary text-white px-4 py-2 rounded-full shadow-md hover:bg-opacity-90 transition"
+          className="
+            group relative overflow-hidden
+            bg-gradient-to-r from-social-primary to-blue-600
+            text-white px-6 py-3 rounded-xl 
+            shadow-xl shadow-social-primary/30
+            transform transition-all duration-300
+            hover:scale-105 hover:shadow-2xl
+            focus:outline-none focus:ring-2 focus:ring-social-primary/50
+            flex items-center justify-center
+            animate-pulse-soft
+          "
+          aria-label="Next Section"
         >
-          Next
+          {/* Gradient overlay for hover effect */}
+          <div className="
+            absolute inset-0 
+            bg-gradient-to-r from-social-primary/20 to-blue-600/20
+            opacity-0 group-hover:opacity-100 
+            transition-opacity duration-300
+          "></div>
+          
+          {/* Button content */}
+          <div className="flex items-center space-x-2 relative z-10">
+            <svg 
+              xmlns="http://www.w3.org/2000/svg" 
+              className="h-6 w-6 transform transition-all duration-300 group-hover:scale-110 group-hover:animate-bounce-soft" 
+              viewBox="0 0 24 24" 
+              fill="none" 
+              stroke="currentColor" 
+              strokeWidth="2"
+            >
+              <path 
+                d="M12 4.5v15m0 0l6.5-6.5M12 19.5l-6.5-6.5" 
+                strokeLinecap="round" 
+                strokeLinejoin="round"
+                className="origin-bottom"
+              />
+              <circle 
+                cx="12" 
+                cy="4" 
+                r="1.5" 
+                fill="currentColor"
+                className="animate-pulse-soft"
+              />
+              <circle 
+                cx="12" 
+                cy="20" 
+                r="1" 
+                fill="currentColor"
+                className="opacity-70"
+              />
+            </svg>
+          </div>
         </button>
       )}
     </div>
