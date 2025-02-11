@@ -175,7 +175,7 @@ export default function HeroGeometric({
                   size="lg" 
                   className="bg-white text-black hover:bg-white/90 transition-colors"
                 >
-                  Get Started
+                  Join us!
                 </Button>
               </Link>
             </div>
