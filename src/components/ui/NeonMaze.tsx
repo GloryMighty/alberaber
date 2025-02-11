@@ -3,8 +3,8 @@
 import type React from "react"
 import { useState, useRef, useEffect } from "react"
 import { motion } from "framer-motion"
-import { useMousePosition } from "../hooks/useMousePosition"
-import NeonIsometricMaze from "./maze"
+import { useMousePosition } from "@/hooks/useMousePosition"
+import Maze from "./Maze"
 
 interface NeonMazeProps {
   width?: string
@@ -41,7 +41,7 @@ const NeonMaze: React.FC<NeonMazeProps> = ({ width = "w-96", height = "h-32", te
   return (
     <motion.div
       ref={cardRef}
-      className={`relative ${width} ${height} rounded-2xl overflow-hidden cursor-pointer`}
+      className={`relative mx-4 ${width} ${height} rounded overflow-hidden`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       animate={calculateRotation()}
@@ -65,7 +65,7 @@ const NeonMaze: React.FC<NeonMazeProps> = ({ width = "w-96", height = "h-32", te
         transition={{ duration: 3, repeat: Number.POSITIVE_INFINITY, repeatType: "reverse" }}
       />
       <div className="absolute inset-0 overflow-hidden">
-        <NeonIsometricMaze />
+        <Maze />
       </div>
       <motion.div
         className="absolute inset-0 flex items-center justify-center"

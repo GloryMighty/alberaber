@@ -1,5 +1,6 @@
 
 import { Bell, Home, MessageSquare, Users, Calendar, User, LogOut } from "lucide-react";
+import NeonMaze from "@/components/ui/NeonMaze";
 import { Link, useLocation } from "react-router-dom";
 import { SidebarProvider, Sidebar, SidebarContent, SidebarTrigger } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
@@ -22,9 +23,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <div className="min-h-screen flex w-full bg-gray-50">
         <Sidebar className="border-r border-gray-200">
           <SidebarContent>
-            <div className="px-3 py-4">
-              <h1 className="text-2xl font-bold text-social-primary mb-8">DigiCard</h1>
-              <nav className="space-y-2">
+            <div className="flex flex-col h-full">
+              <div className="pt-2 pb-6 w-full flex justify-center">
+                <NeonMaze width="w-full" height="h-16" text="DigiCard" href="/" />
+              </div>
+              <nav className="px-3 space-y-2">
                 {navItems.map((item) => (
                   <Link
                     key={item.href}
