@@ -4,6 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 import { SidebarProvider, Sidebar, SidebarContent, SidebarTrigger } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
+import NeonMaze from "@/components/ui/NeonMaze";
 
 const navItems = [
   { icon: Home, label: "Home", href: "/" },
@@ -23,7 +24,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <Sidebar className="border-r border-gray-200">
           <SidebarContent>
             <div className="px-3 py-4">
-              <h1 className="text-2xl font-bold text-social-primary mb-8">DigiCard</h1>
+              <div className="mb-8 w-48 h-16">
+                <NeonMaze text="DigiCard" width="w-full" height="h-full" />
+              </div>
               <nav className="space-y-2">
                 {navItems.map((item) => (
                   <Link
