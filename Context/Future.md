@@ -50,6 +50,33 @@
   - Achievement/usage statistics
   - Final conversion point
 
+## Routing Plan
+
+### User Journey Flow
+1. **Root Route (`/`)**: 
+   - Landing Page (New Component to be Created)
+   - Contains toolbar with "Sign Up" button 
+
+2. **Authentication Route (`/auth`)**: 
+   - Existing Authentication Page (`src/pages/auth`)
+   - User redirected here after clicking "Sign Up"
+
+3. **Home Route (`/page/Index`)**: 
+   - Existing Home Page (`src/pages/Index.tsx`)
+   - Destination after successful authentication
+
+### Routing Considerations
+- Implement protected routes for authenticated pages
+- Ensure smooth navigation between routes
+- Handle authentication state management
+- Provide clear user feedback during route transitions
+
+### Technical Implementation
+- Use React Router for navigation
+- Create route guards for authenticated sections
+- Implement consistent navigation patterns
+- Maintain clean, modular routing logic
+
 ## Technical Implementation Considerations
 - Optimize performance for smooth animations
 - Ensure responsive design across devices
