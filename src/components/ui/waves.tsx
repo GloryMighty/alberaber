@@ -43,14 +43,14 @@ export default function Component() {
 
           ctx.beginPath()
           ctx.arc(centerX, centerY, size / 2, 0, Math.PI * 2)
-          ctx.fillStyle = `rgba(255, 255, 255, ${waveOffset * 0.5})`
+          ctx.fillStyle = `rgba(255, 255, 255, ${waveOffset})`
           ctx.fill()
         }
       }
     }
 
     const animate = () => {
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.1)'
+      ctx.fillStyle = 'rgba(0, 0, 0, 1)'
       ctx.fillRect(0, 0, canvas.width, canvas.height)
 
       drawHalftoneWave()
@@ -72,4 +72,3 @@ export default function Component() {
 
   return <canvas ref={canvasRef} className="w-full h-screen bg-black" />
 }
-

@@ -4,6 +4,8 @@ import { ArrowRight } from 'lucide-react';
 import ConnectionAnimation from '@/components/ui/Connect';
 import WavesBackground from '@/components/ui/waves';
 import LightningCircle from '@/components/ui/backgrounds/Bolts';
+import { StyledText } from '@/components/ui/StyledText';
+import { useNavigate } from 'react-router-dom';
 
 // Wave animation for Grow icon
 const GrowIconWave: React.FC = () => {
@@ -113,76 +115,12 @@ const CallToActionSection: React.FC = () => {
     }
   };
 
-  
-
-  const ctaIcons = [
-    { text: "Connect" },
-    { text: "Accelerate" }
-  ];
-
-  const [bolts, setBolts] = useState<{ id: number; path: string }[]>([]);
   const elementRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const boltIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const navigate = useNavigate();
 
-  const createBolt = (startEl: HTMLDivElement, endEl: HTMLDivElement) => {
-    const startRect = startEl.getBoundingClientRect();
-    const endRect = endEl.getBoundingClientRect();
-
-    const startX = startRect.left + startRect.width / 2;
-    const startY = startRect.top + startRect.height / 2;
-    const endX = endRect.left + endRect.width / 2;
-    const endY = endRect.top + endRect.height / 2;
-
-    // Calculate midpoint for intersection
-    const midX = (startX + endX) / 2;
-    const midY = (startY + endY) / 2;
-
-    console.log('Lightning Bolt Intersection:', { midX, midY });
-
-    // More dramatic curvature
-    const curvedMidX = startX + (endX - startX) * 0.5 + (Math.random() - 0.5) * 200;
-    const curvedMidY = startY + (endY - startY) * 0.5 + (Math.random() - 0.5) * 200;
-
-    const id = Date.now();
-    const path = `M${startX},${startY} Q${curvedMidX},${curvedMidY} ${endX},${endY}`;
-
-    setBolts((prevBolts) => [...prevBolts, { id, path }]);
-
-    setTimeout(() => {
-      setBolts((prevBolts) => prevBolts.filter((bolt) => bolt.id !== id));
-    }, 1000);
-
-    return { midX, midY }; // Return intersection point
+  const handleGrowClick = () => {
+    navigate('/auth');
   };
-
-  const interconnectElements = () => {
-    if (elementRefs.current.length === 2) {
-      // Create bolts in a cyclic manner
-      createBolt(elementRefs.current[0]!, elementRefs.current[1]!);
-    }
-  };
-
-  useEffect(() => {
-    // Start continuous bolt cycling when elements are in view
-    const startBoltCycle = () => {
-      // Clear any existing interval
-      if (boltIntervalRef.current) {
-        clearInterval(boltIntervalRef.current);
-      }
-
-      // Start new interval
-      boltIntervalRef.current = setInterval(() => {
-        interconnectElements();
-      }, 1500); // Cycle every 1.5 seconds
-    };
-
-    // Stop bolt cycling when component unmounts
-    return () => {
-      if (boltIntervalRef.current) {
-        clearInterval(boltIntervalRef.current);
-      }
-    };
-  }, []);
 
   return (
     <section 
@@ -197,65 +135,33 @@ const CallToActionSection: React.FC = () => {
       ))}
       <div className="container mx-auto px-4 relative">
         <div className="grid grid-cols-12 gap-12 items-center">
-          {/* Icons Column - Right side */}
-          <div className="col-span-12 grid grid-cols-2 gap-8 justify-items-center">
-            {ctaIcons.map((item, index) => (
-              <motion.div
-                key={item.text}
-                ref={(el) => elementRefs.current[index] = el}
-                initial={{ opacity: 0, x: 50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.2, duration: 0.5 }}
-                className="flex items-center justify-center bg-white shadow-lg rounded-xl p-4 relative w-32 h-32"
-              >
-                {/* Render dynamic icon based on text */}
-                {item.text === "Connect" && <ConnectionAnimation />}
-                
-                <h3 className="text-xl font-semibold text-social-primary absolute bottom-4">
-                  {item.text}
-                </h3>
-              </motion.div>
-            ))}
-          </div>
+          <motion.div 
+            initial="hidden"
+            animate="visible"
+            variants={textVariants}
+            className="col-span-12 text-center"
+          >
+          </motion.div>
+          {/* Centered 'Grow' Button */}
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{
+              duration: 1.5,
+              repeat: Infinity,
+              repeatType: "reverse",
+              ease: "easeInOut"
+            }}
+            className="absolute inset-0 flex items-center justify-center z-20"
+          >
+            <StyledText 
+              onClick={handleGrowClick} 
+              className="text-6xl font-bold text-blue-600 hover:text-blue-800 transition-colors cursor-pointer"
+            >
+              GROW
+            </StyledText>
+          </motion.div>
         </div>
-
-        {/* Centered 'Grow' Button */}
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{
-            duration: 1.5,
-            repeat: Infinity,
-            repeatType: "reverse",
-            ease: "easeInOut"
-          }}
-          style={{
-            position: 'absolute',
-            left: `${window.innerWidth / 2}px`,
-            top: `${window.innerHeight / 2}px`,
-            transform: 'translate(-50%, -50%)'
-          }}
-          className="z-20"
-        >
-          <span className="text-6xl font-bold text-blue-600 hover:text-blue-800 transition-colors cursor-pointer">
-            Grow
-          </span>
-        </motion.div>
-
-        {/* Lightning Bolts */}
-        <svg className="absolute inset-0 pointer-events-none z-10">
-          {bolts.map((bolt) => (
-            <path
-              key={bolt.id}
-              d={bolt.path}
-              stroke="#7DF9FF"
-              strokeWidth="2"
-              fill="none"
-              className="animate-bolt"
-            />
-          ))}
-        </svg>
       </div>
     </section>
   );

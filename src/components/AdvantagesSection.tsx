@@ -7,6 +7,8 @@ import {
 } from 'react-icons/fa';
 import BackgroundPaths from '@/components/ui/AnimatedLines'; // Import BackgroundPaths
 import { cn } from "@/lib/utils"
+import { StyledText } from '@/components/ui/StyledText';
+import Icon3D from '@/components/ui/3DIcon';
 
 // Helper component for animated text
 const AnimatedText = React.memo(({ 
@@ -55,19 +57,19 @@ const AdvantagesSection: React.FC = () => {
     {
       title: 'Seamless Communication',
       description: 'Connect effortlessly with intuitive interfaces',
-      icon: FaCommentDots,
+      iconType: 'communication',
       color: 'text-blue-600'
     },
     {
       title: 'Events & Meetings',
       description: 'Access and create engaging and even luxury events with ease',
-      icon: FaShieldAlt,
+      iconType: 'events',
       color: 'text-green-600'
     },
     {
       title: 'Smart Interactions',
       description: 'Intelligent features that enhance communication. Our AI suggestions will help to tailor your approach and come up with the best ideas',
-      icon: FaBrain,
+      iconType: 'ai',
       color: 'text-purple-600'
     }
   ], []);
@@ -124,7 +126,7 @@ const AdvantagesSection: React.FC = () => {
           </motion.p>
         </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-10">
           {advantages.map((advantage, index) => (
             <motion.div
               key={advantage.title}
@@ -133,17 +135,18 @@ const AdvantagesSection: React.FC = () => {
               variants={fadeUpVariants}
               custom={index + 3}
               className={cn(
-                "bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-2xl p-4 sm:p-6 text-center",
-                "transform transition-all duration-300 hover:scale-105 hover:shadow-lg"
+                "bg-white border border-gray-200 rounded-2xl p-7 text-center",
+                "transform transition-all duration-300 hover:scale-105 hover:shadow-lg",
+                "relative overflow-hidden group"
               )}
             >
-              <div className={`text-3xl sm:text-4xl md:text-5xl mb-3 sm:mb-4 ${advantage.color} flex justify-center`}>
-                <advantage.icon />
+              <div className={`text-3xl sm:text-4xl md:text-5xl mb-5 ${advantage.color} flex justify-center`}>
+                {/* <Icon3D type={advantage.iconType} size={120} /> */}
               </div>
-              <h3 className="text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white mb-2 sm:mb-3">
+              <StyledText className="text-2xl font-bold mb-4 block">
                 {advantage.title}
-              </h3>
-              <p className="text-sm sm:text-base text-gray-600 dark:text-white/70">
+              </StyledText>
+              <p className="text-base text-gray-600 dark:text-white/70">
                 {advantage.description}
               </p>
             </motion.div>

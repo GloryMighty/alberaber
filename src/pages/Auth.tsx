@@ -3,13 +3,14 @@ import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 export default function Auth() {
   const [isSignUp, setIsSignUp] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { signIn, signUp, user } = useAuth();
+  const navigate = useNavigate();
 
   // Redirect if user is already logged in
   if (user) {
@@ -25,9 +26,22 @@ export default function Auth() {
     }
   };
 
+  const goToHome = () => {
+    navigate('/');
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
       <Card className="w-full max-w-md p-8">
+        <div className="absolute top-4 left-4">
+          <Button 
+            variant="ghost" 
+            onClick={goToHome} 
+            className="text-social-primary hover:bg-gray-100"
+          >
+            Home
+          </Button>
+        </div>
         <h1 className="text-2xl font-bold text-center mb-8 text-social-primary">
           {isSignUp ? "Create an Account" : "Welcome Back"}
         </h1>
