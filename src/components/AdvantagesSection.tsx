@@ -97,15 +97,6 @@ const AdvantagesSection: React.FC = () => {
           animate="visible"
           className="text-center mb-12"
         >
-          <motion.span 
-            variants={fadeUpVariants}
-            custom={0}
-            className="inline-block mb-4 px-3 py-1 sm:px-4 sm:py-2 rounded-full bg-gradient-to-b from-black/10 to-white/10 
-                        dark:from-white/10 dark:to-black/10 backdrop-blur-lg 
-                        text-xs sm:text-sm font-medium text-neutral-700 dark:text-white/80 tracking-wide"
-          >
-            Our Key Advantages
-          </motion.span>
           <motion.h2 
             variants={fadeUpVariants}
             custom={1}
