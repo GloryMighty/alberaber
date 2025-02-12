@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import ConnectionAnimation from '@/components/ui/Connect';
 import WavesBackground from '@/components/ui/waves';
+import LightningCircle from '@/components/ui/backgrounds/Bolts';
 
 // Wave animation for Grow icon
 const GrowIconWave: React.FC = () => {
@@ -93,6 +94,12 @@ const GrowIconWave: React.FC = () => {
 
 // Call to Action Section with dynamic motion animations
 const CallToActionSection: React.FC = () => {
+  // Add background elements
+  const backgroundElements = [
+    { component: LightningCircle, position: 'top-0 right-0' },
+    { component: WavesBackground, position: 'bottom-0 left-0' }
+  ];
+
   // Animation variants for text and icons
   const textVariants = {
     hidden: { opacity: 0, y: 50 },
@@ -110,7 +117,6 @@ const CallToActionSection: React.FC = () => {
 
   const ctaIcons = [
     { text: "Connect" },
-    { text: "Grow" },
     { text: "Accelerate" }
   ];
 
@@ -127,30 +133,32 @@ const CallToActionSection: React.FC = () => {
     const endX = endRect.left + endRect.width / 2;
     const endY = endRect.top + endRect.height / 2;
 
+    // Calculate midpoint for intersection
+    const midX = (startX + endX) / 2;
+    const midY = (startY + endY) / 2;
+
+    console.log('Lightning Bolt Intersection:', { midX, midY });
+
     // More dramatic curvature
-    const midX = startX + (endX - startX) * 0.5 + (Math.random() - 0.5) * 200;
-    const midY = startY + (endY - startY) * 0.5 + (Math.random() - 0.5) * 200;
+    const curvedMidX = startX + (endX - startX) * 0.5 + (Math.random() - 0.5) * 200;
+    const curvedMidY = startY + (endY - startY) * 0.5 + (Math.random() - 0.5) * 200;
 
     const id = Date.now();
-    const path = `M${startX},${startY} Q${midX},${midY} ${endX},${endY}`;
+    const path = `M${startX},${startY} Q${curvedMidX},${curvedMidY} ${endX},${endY}`;
 
     setBolts((prevBolts) => [...prevBolts, { id, path }]);
 
     setTimeout(() => {
       setBolts((prevBolts) => prevBolts.filter((bolt) => bolt.id !== id));
     }, 1000);
+
+    return { midX, midY }; // Return intersection point
   };
 
   const interconnectElements = () => {
-    if (elementRefs.current.length === 3) {
+    if (elementRefs.current.length === 2) {
       // Create bolts in a cyclic manner
       createBolt(elementRefs.current[0]!, elementRefs.current[1]!);
-      setTimeout(() => {
-        createBolt(elementRefs.current[1]!, elementRefs.current[2]!);
-      }, 300);
-      setTimeout(() => {
-        createBolt(elementRefs.current[2]!, elementRefs.current[0]!);
-      }, 600);
     }
   };
 
@@ -179,158 +187,75 @@ const CallToActionSection: React.FC = () => {
   return (
     <section 
       id="features-section" 
-      className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center overflow-hidden"
+      className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center overflow-hidden relative"
     >
+      {/* Background Elements */}
+      {backgroundElements.map((Element, index) => (
+        <div key={index} className={`absolute ${Element.position} w-full h-full pointer-events-none opacity-40`}>
+          <Element.component />
+        </div>
+      ))}
       <div className="container mx-auto px-4 relative">
-        <div className="grid md:grid-cols-2 gap-12 items-center">
-          {/* Text Column */}
-          <motion.div 
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={textVariants}
-            className="space-y-6"
-          >
-            <h2 className="text-4xl font-bold text-social-primary mb-4">
-              Your Digital Networking Journey
-            
-              <span className="text-4xl font-bold text-social-primary mb-4" > STARTS </span>  
-              <span className="block text-indigo-500"> HERE! </span>
-            </h2>
-            <motion.p 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ 
-                delay: 0.2, 
-                duration: 0.8, 
-                ease: [0.25, 0.4, 0.25, 1] 
-              }}
-              className="text-xl text-gray-700 mb-6"
-            >
-              Are you a successful business owner, an entrepreneur, 
-              or just starting your journey?
-            </motion.p>
-            <motion.p 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ 
-                delay: 0.4, 
-                duration: 0.8, 
-                ease: [0.25, 0.4, 0.25, 1] 
-              }}
-              className="text-lg text-gray-600 mb-8"
-            >
-              DigiCard empowers your networking potential with cutting-edge digital solutions.
-            </motion.p>
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="bg-social-primary text-white px-8 py-3 rounded-full text-lg font-semibold flex items-center gap-2 hover:bg-social-primary/90 transition-colors"
-            >
-              Join Now <ArrowRight className="ml-2" />
-            </motion.button>
-          </motion.div>
-
-          {/* Icons Column */}
-          <motion.div 
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="relative h-[500px] w-full"
-          >
-            {bolts.map((bolt) => (
-              <motion.svg 
-                key={bolt.id}
-                initial={{ opacity: 0, pathLength: 0 }}
-                animate={{ 
-                  opacity: [0, 1, 0.7, 1, 0], 
-                  pathLength: [0, 1, 1, 0],
-                  scale: [0.9, 1.1, 1, 0.9]
-                }}
-                transition={{ 
-                  duration: 1, 
-                  ease: "easeInOut",
-                  times: [0, 0.3, 0.7, 1]
-                }}
-                style={{ 
-                  position: 'absolute', 
-                  top: 0, 
-                  left: 0, 
-                  width: '100%', 
-                  height: '100%', 
-                  pointerEvents: 'none' 
-                }}
-              >
-                <defs>
-                  <linearGradient id="boltGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="rgba(128, 0, 128, 0.8)" />
-                    <stop offset="100%" stopColor="rgba(255, 0, 255, 1)" />
-                  </linearGradient>
-                  <filter id="boltGlow" x="-50%" y="-50%" width="200%" height="200%">
-                    <feGaussianBlur stdDeviation="5" result="coloredBlur"/>
-                    <feMerge>
-                      <feMergeNode in="coloredBlur"/>
-                      <feMergeNode in="SourceGraphic"/>
-                    </feMerge>
-                  </filter>
-                </defs>
-                <path 
-                  d={bolt.path} 
-                  fill="none" 
-                  stroke="url(#boltGradient)" 
-                  strokeWidth="5" 
-                  strokeLinecap="round"
-                  filter="url(#boltGlow)"
-                />
-              </motion.svg>
-            ))}
-
+        <div className="grid grid-cols-12 gap-12 items-center">
+          {/* Icons Column - Right side */}
+          <div className="col-span-12 grid grid-cols-2 gap-8 justify-items-center">
             {ctaIcons.map((item, index) => (
               <motion.div
-                key={index}
+                key={item.text}
                 ref={(el) => elementRefs.current[index] = el}
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ 
-                  delay: index * 0.2, 
-                  duration: 0.5, 
-                  ease: "easeOut" 
-                }}
-                className={`absolute bg-white p-4 rounded-xl shadow-lg text-center transform transition-all hover:scale-105 relative overflow-hidden`}
-                style={{
-                  left: `${20 + index * 25}%`,
-                  top: `${20 + index * 25}%`,
-                  width: '200px',
-                  zIndex: 10 - index
-                }}
+                initial={{ opacity: 0, x: 50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.2, duration: 0.5 }}
+                className="flex items-center justify-center bg-white shadow-lg rounded-xl p-4 relative w-32 h-32"
               >
-                {/* Add wave animation for Grow icon */}
-                {item.text === "Grow" && <GrowIconWave />}
+                {/* Render dynamic icon based on text */}
+                {item.text === "Connect" && <ConnectionAnimation />}
                 
-                {/* Add connection animation for Connect icon */}
-                {item.text === "Connect" && (
-                  <div className="absolute inset-0 z-0 opacity-50 pointer-events-none">
-                    <ConnectionAnimation />
-                  </div>
-                )}
-                
-                {/* Add lightning background for Accelerate icon */}
-                {item.text === "Accelerate" && (
-                  <div className="absolute inset-0 z-0 opacity-50 pointer-events-none">
-                    <WavesBackground />
-                  </div>
-                )}
-                
-                <div className="mb-2 flex justify-center text-social-primary relative z-10">
-                  {/* Removed icon rendering */}
-                </div>
-                <h3 className="text-lg font-semibold text-gray-800 relative z-10">
+                <h3 className="text-xl font-semibold text-social-primary absolute bottom-4">
                   {item.text}
                 </h3>
               </motion.div>
             ))}
-          </motion.div>
+          </div>
         </div>
+
+        {/* Centered 'Grow' Button */}
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{
+            duration: 1.5,
+            repeat: Infinity,
+            repeatType: "reverse",
+            ease: "easeInOut"
+          }}
+          style={{
+            position: 'absolute',
+            left: `${window.innerWidth / 2}px`,
+            top: `${window.innerHeight / 2}px`,
+            transform: 'translate(-50%, -50%)'
+          }}
+          className="z-20"
+        >
+          <span className="text-6xl font-bold text-blue-600 hover:text-blue-800 transition-colors cursor-pointer">
+            Grow
+          </span>
+        </motion.div>
+
+        {/* Lightning Bolts */}
+        <svg className="absolute inset-0 pointer-events-none z-10">
+          {bolts.map((bolt) => (
+            <path
+              key={bolt.id}
+              d={bolt.path}
+              stroke="#7DF9FF"
+              strokeWidth="2"
+              fill="none"
+              className="animate-bolt"
+            />
+          ))}
+        </svg>
       </div>
     </section>
   );

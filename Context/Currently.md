@@ -83,3 +83,10 @@
 
 ## Timestamp of Context Update
 - Last Updated: 2025-02-11T22:23:33+03:00
+
+## Color Palette Strategy
+- Use a color palette consistent with the brand identity
+- Incorporate complementary colors for visual hierarchy
+- Avoid using the same color for different elements
+- Use color sparingly for accentuation
+- On the animated line background, use a soft variant of the primary color. Use dark rich color palette. 
