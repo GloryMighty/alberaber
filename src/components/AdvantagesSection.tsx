@@ -99,7 +99,7 @@ const AdvantagesSection: React.FC = () => {
               <StyledText className="text-2xl font-bold mb-4 block">
                 {advantage.title}
               </StyledText>
-              <p className="text-base text-gray-600 dark:text-white/70">
+              <p className="text-base text-[#3052ff]">
                 {advantage.description}
               </p>
             </motion.div>)}
