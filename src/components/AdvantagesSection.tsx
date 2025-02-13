@@ -77,7 +77,7 @@ const AdvantagesSection: React.FC = () => {
   }), []);
   return <section id="advantages" className="relative min-h-screen bg-white dark:bg-social-primary/10 flex items-center justify-center py-16 overflow-hidden">
       <BackgroundPaths />
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 py-0">
         <motion.div initial="hidden" animate="visible" className="text-center mb-12">
           <motion.h2 variants={fadeUpVariants} custom={1} className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 sm:mb-8 tracking-tighter">
             <AnimatedText text="Empower Your Communication" letterClassName="text-transparent bg-clip-text 
