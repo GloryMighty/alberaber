@@ -1,11 +1,12 @@
 "use client"
 
-import React from "react"
-import { motion } from "framer-motion"
+import React, { useRef } from "react"
+import { motion, useScroll, useTransform } from "framer-motion"
 import "@fontsource/pacifico/400.css"
 import { cn } from "@/lib/utils"
 import { Link } from "react-router-dom"
 import { Button } from "@/components/ui/button"
+import Section from './Section';
 
 const pacifico = {
   className: "font-pacifico",
@@ -88,6 +89,8 @@ export default function HeroGeometric({
   title2?: string
   children?: React.ReactNode
 }) {
+  const ref = useRef(null)
+
   const fadeUpVariants = {
     hidden: { opacity: 0, y: 30 },
     visible: (i: number) => ({
@@ -102,10 +105,14 @@ export default function HeroGeometric({
   }
 
   return (
-    <div className="relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-[#030303]">
-      <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/[0.05] via-transparent to-rose-500/[0.05] blur-3xl" />
+    <Section id="hero" title="Hero" className="relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-[#030303]">
+      <motion.div 
+        className="absolute inset-0 bg-gradient-to-br from-indigo-500/[0.05] via-transparent to-rose-500/[0.05] blur-3xl" 
+      />
 
-      <div className="absolute inset-0 overflow-hidden">
+      <motion.div 
+        className="absolute inset-0 overflow-hidden"
+      >
         <ElegantShape
           delay={0.3}
           width={600}
@@ -150,7 +157,7 @@ export default function HeroGeometric({
           gradient="from-cyan-500/[0.15]"
           className="left-[20%] md:left-[25%] top-[5%] md:top-[10%]"
         />
-      </div>
+      </motion.div>
 
       <motion.nav 
         initial={{ opacity: 0, y: -50 }}
@@ -213,6 +220,6 @@ export default function HeroGeometric({
       )}
 
       <div className="absolute inset-0 bg-gradient-to-t from-[#030303] via-transparent to-[#030303]/80 pointer-events-none" />
-    </div>
+    </Section>
   )
 }

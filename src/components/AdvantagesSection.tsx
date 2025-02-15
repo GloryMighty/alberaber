@@ -1,75 +1,36 @@
 import React, { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { 
-  FaShieldAlt,       // Privacy icon
-  FaCommentDots,     // Communication icon
-  FaBrain            // Smart interactions icon
-} from 'react-icons/fa';
-import BackgroundPaths from '@/components/ui/AnimatedLines'; // Import BackgroundPaths
-import { cn } from "@/lib/utils"
-import { StyledText } from '@/components/ui/StyledText';
-import Icon3D from '@/components/ui/3DIcon';
-
-// Helper component for animated text
-const AnimatedText = React.memo(({ 
-  text, 
-  wordClassName = '', 
-  letterClassName = '', 
-  customAccentIndex 
-}: { 
-  text: string, 
-  wordClassName?: string, 
-  letterClassName?: string, 
-  customAccentIndex?: number 
-}) => {
-  return (
-    <>{text.split(' ').map((word, wordIndex) => (
-      <span key={wordIndex} className={`inline-block mr-2 ${wordClassName}`}>
-        {word.split('').map((letter, letterIndex) => (
-          <motion.span
-            key={`${wordIndex}-${letterIndex}`}
-            initial={{ y: 100, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{
-              delay: wordIndex * 0.1 + letterIndex * 0.03,
-              type: 'spring',
-              stiffness: 150,
-              damping: 25,
-            }}
-            className={`inline-block ${letterClassName} ${
-              customAccentIndex !== undefined && wordIndex === customAccentIndex 
-                ? 'text-social-accent' 
-                : ''
-            }`}
-          >
-            {letter}
-          </motion.span>
-        ))}
-      </span>
-    ))}</>
-  );
-});
+  MessageCircle,    // Communication icon
+  Calendar,         // Events icon
+  Brain             // Smart interactions icon
+} from 'lucide-react';
+import NetworkBackground from '@/components/ui/backgrounds/Network';
+import IconComponent from '@/components/ui/IconComponent';
+import GlassSeparator from '@/components/ui/GlassSeparator';
+import Section from './Section';
+import SectionSeparator from './SectionSeparator';
 
 // Section highlighting communication benefits with enhanced visuals
 const AdvantagesSection: React.FC = () => {
   // Define advantages with icons and additional details
   const advantages = useMemo(() => [
     {
+      icon: MessageCircle,
       title: 'Seamless Communication',
       description: 'Connect effortlessly with intuitive interfaces',
-      iconType: 'communication',
       color: 'text-blue-600'
     },
     {
+      icon: Calendar,
       title: 'Events & Meetings',
       description: 'Access and create engaging and even luxury events with ease',
-      iconType: 'events',
       color: 'text-green-600'
     },
     {
+      icon: Brain,
       title: 'Smart Interactions',
       description: 'Intelligent features that enhance communication. Our AI suggestions will help to tailor your approach and come up with the best ideas',
-      iconType: 'ai',
       color: 'text-purple-600'
     }
   ], []);
@@ -88,12 +49,18 @@ const AdvantagesSection: React.FC = () => {
   }), []);
 
   return (
-    <section 
+    <Section 
       id="advantages" 
-      className="relative min-h-screen bg-white dark:bg-social-primary/10 flex items-center justify-center py-16 overflow-hidden"
+      className="relative min-h-screen bg-[#030303] dark:bg-social-primary/10 flex items-center justify-center py-16 overflow-hidden"
     >
-      <BackgroundPaths />
+      <motion.div 
+        className="absolute top-0 left-0 w-full h-full"
+      >
+        <NetworkBackground />
+      </motion.div>
+      
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        {/* Main Section Title */}
         <motion.div 
           initial="hidden"
           animate="visible"
@@ -102,31 +69,21 @@ const AdvantagesSection: React.FC = () => {
           <motion.h2 
             variants={fadeUpVariants}
             custom={1}
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 sm:mb-8 tracking-tighter"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 sm:mb-8 tracking-tighter animated-gradient-title"
           >
-            <AnimatedText 
-              text="Empower Your Communication" 
-              letterClassName="text-transparent bg-clip-text 
-                               bg-gradient-to-r from-neutral-900 to-neutral-700/80 
-                               dark:from-white dark:to-white/80"
-              customAccentIndex={2}
-            />
+            Empower Your Communication
           </motion.h2>
           <motion.p 
             variants={fadeUpVariants}
             custom={2}
-            className="text-base sm:text-lg md:text-xl text-neutral-600 dark:text-white/70 max-w-3xl mx-auto mb-8 sm:mb-12"
+            className="text-base sm:text-lg md:text-xl text-white/70 max-w-3xl mx-auto mb-8 sm:mb-12"
           >
-            <AnimatedText 
-              text="Discover how our platform transforms the way you connect and collaborate" 
-              letterClassName="text-transparent bg-clip-text 
-                               bg-gradient-to-r from-neutral-900/80 to-neutral-700/60 
-                               dark:from-white/80 dark:to-white/60"
-            />
+            Discover how our platform transforms the way you connect and collaborate
           </motion.p>
         </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-10">
+        {/* Advantages Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-10 transform -rotate-6">
           {advantages.map((advantage, index) => (
             <motion.div
               key={advantage.title}
@@ -134,26 +91,28 @@ const AdvantagesSection: React.FC = () => {
               animate="visible"
               variants={fadeUpVariants}
               custom={index + 3}
-              className={cn(
-                "bg-white border border-gray-200 rounded-2xl p-7 text-center",
-                "transform transition-all duration-300 hover:scale-105 hover:shadow-lg",
-                "relative overflow-hidden group"
-              )}
+              className="flex flex-col items-center text-center"
             >
-              <div className={`text-3xl sm:text-4xl md:text-5xl mb-5 ${advantage.color} flex justify-center`}>
-                {/* <Icon3D type={advantage.iconType} size={120} /> */}
+              <IconComponent 
+                icon={advantage.icon} 
+                label={advantage.title} 
+              />
+              <div className="mt-4 max-w-xs">
+                <h3 className={`text-2xl font-bold mb-2 block text-white animated-gradient-title text-center ${advantage.color}`}>
+                  {advantage.title}
+                </h3>
+                <p className="text-base text-white/70">
+                  {advantage.description}
+                </p>
               </div>
-              <StyledText className="text-2xl font-bold mb-4 block">
-                {advantage.title}
-              </StyledText>
-              <p className="text-base text-gray-600 dark:text-white/70">
-                {advantage.description}
-              </p>
             </motion.div>
           ))}
         </div>
       </div>
-    </section>
+      
+      <SectionSeparator /> 
+      <GlassSeparator />
+    </Section>
   );
 };
 

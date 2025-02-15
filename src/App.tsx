@@ -16,10 +16,11 @@ import Messages from "./pages/Messages";
 import Events from "./pages/Events";
 
 // Import section components
-import HeroGeometric from './components/HeroSection';
-import AdvantagesSection from './components/AdvantagesSection';
-import FeaturesSection from './components/FeaturesSection';
-import LegalSection from './components/LegalSection';
+import HeroGeometric from './sections/HeroSection';
+import AdvantagesSection from './sections/AdvantagesSection';
+import FeaturesSection from './sections/FeaturesSection';
+import LegalSection from './sections/LegalSection';
+import SectionSeparator from './sections/SectionSeparator';
 
 // Navigation buttons component
 const NavigationButtons: React.FC<{
@@ -187,9 +188,22 @@ const App = () => {
                   />
 
                   {/* Render Sections */}
-                  {landingPageSections.map(section => {
+                  {landingPageSections.map((section, index) => {
                     const SectionComponent = sectionComponents[section.id as keyof typeof sectionComponents];
-                    return <SectionComponent key={section.id} />;
+                    const backgroundClasses = [
+                      'bg-white', 
+                      'bg-gray-50', 
+                      'bg-blue-50', 
+                      'bg-indigo-50'
+                    ];
+                    const sectionBackground = backgroundClasses[index % backgroundClasses.length];
+                    
+                    return (
+                      <div key={section.id} className={`min-h-screen flex flex-col justify-center ${sectionBackground}`}>
+                        <SectionComponent />
+                        {index < landingPageSections.length - 1 && <SectionSeparator />}
+                      </div>
+                    );
                   })}
                 </div>
               } />

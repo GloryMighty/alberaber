@@ -1,4 +1,3 @@
-
 import { Bell, Home, MessageSquare, Users, Calendar, User, LogOut } from "lucide-react";
 import NeonMaze from "@/components/ui/NeonMaze";
 import { Link, useLocation } from "react-router-dom";
@@ -7,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 
 const navItems = [
-  { icon: Home, label: "Home", href: "/" },
+  { icon: Home, label: "Home", href: "/home" },
   { icon: User, label: "Profile", href: "/profile" },
   { icon: Calendar, label: "Events", href: "/events" },
   { icon: Users, label: "Network", href: "/network" },
@@ -25,7 +24,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <SidebarContent>
             <div className="flex flex-col h-full">
               <div className="pt-2 pb-6 w-full flex justify-center">
-                <NeonMaze width="w-full" height="h-16" text="DigiCard" href="/" />
+                <NeonMaze width="w-full" height="h-16" text="DigiCard" href="/home" />
               </div>
               <nav className="px-3 space-y-2">
                 {navItems.map((item) => (

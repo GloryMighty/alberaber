@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -75,6 +74,10 @@ export default {
           "0%": { transform: "translateX(-100%)" },
           "100%": { transform: "translateX(0)" },
         },
+        "gradient-x": {
+          "0%, 100%": { backgroundPosition: "0% 50%" },
+          "50%": { backgroundPosition: "100% 50%" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -82,6 +85,7 @@ export default {
         "fade-in": "fade-in 0.3s ease-out",
         "fade-out": "fade-out 0.3s ease-out",
         "slide-in": "slide-in 0.3s ease-out",
+        "gradient-x": "gradient-x 5s ease infinite",
       },
       borderRadius: {
         lg: "var(--radius)",

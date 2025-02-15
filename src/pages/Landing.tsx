@@ -3,8 +3,13 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import HeroGeometric from '@/components/HeroSection';
+import { useScrollNavigation, landingPageSections } from '@/hooks/useScrollNavigation';
+import { ScrollProgressBar } from '@/components/ui/ScrollProgressBar';
 
 const LandingWithGeometricBackground: React.FC = () => {
+  // Use scroll navigation hook
+  const { currentSection, sectionsProgress } = useScrollNavigation(landingPageSections);
+
   // Animation variants for smooth scroll-based animations
   const sectionVariants = {
     hidden: { opacity: 0, y: 50 },
@@ -20,6 +25,12 @@ const LandingWithGeometricBackground: React.FC = () => {
 
   return (
     <div className="min-h-screen w-full">
+      {/* Add scroll progress bar */}
+      <ScrollProgressBar 
+        progress={sectionsProgress[currentSection] || 0} 
+        color="bg-white/50"
+      />
+
       <HeroGeometric 
         badge="DigiCard" 
         title1="Transform Your" 

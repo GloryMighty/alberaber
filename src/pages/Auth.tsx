@@ -43,7 +43,7 @@ export default function Auth() {
           </Button>
         </div>
         <h1 className="text-2xl font-bold text-center mb-8 text-social-primary">
-          {isSignUp ? "Create an Account" : "Welcome Back"}
+          {isSignUp ? "Create an Account" : "DigiCard"}
         </h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>

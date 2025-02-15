@@ -74,7 +74,7 @@ const NeonMaze: React.FC<NeonMazeProps> = ({ width = "w-96", height = "h-32", te
         transition={{ type: "spring", stiffness: 400, damping: 10 }}
       >
         <a href={href} className="block w-full h-full flex items-center justify-center">
-          <span className="text-3xl font-bold text-white drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]">{text}</span>
+          <span className="text-3xl font-bold text-white drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)] animated-gradient-title">{text}</span>
         </a>
       </motion.div>
     </motion.div>
@@ -82,4 +82,3 @@ const NeonMaze: React.FC<NeonMazeProps> = ({ width = "w-96", height = "h-32", te
 }
 
 export default NeonMaze
-
