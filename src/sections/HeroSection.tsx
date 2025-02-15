@@ -3,6 +3,7 @@
 import React, { useRef } from "react"
 import { motion, useScroll, useTransform } from "framer-motion"
 import "@fontsource/pacifico/400.css"
+import "@/styles/Typography.css"
 import { cn } from "@/lib/utils"
 import { Link } from "react-router-dom"
 import { Button } from "@/components/ui/button"
@@ -81,8 +82,8 @@ function ElegantShape({
 
 export default function HeroGeometric({
   badge = "DigiCard",
-  title1 = "Elevate Your ",
-  title2 = "Business POTENTIAL",
+  title1 = "ELEVATE YOUR ",
+  title2 = "BUSINESS POTENTIAL",
   children,
 }: {
   badge?: string
@@ -217,8 +218,8 @@ export default function HeroGeometric({
             </motion.div>
 
             <motion.div custom={2} variants={fadeUpVariants} initial="hidden" animate="visible">
-              <p className="text-base sm:text-lg md:text-xl text-white/40 mb-8 leading-relaxed font-light tracking-wide max-w-xl mx-auto px-4">
-                Collaborate, plan and execute your events with unprecedent clarity and efficiency.
+              <p className="gradient-paragraph text-white text-base sm:text-lg md:text-xl mb-8 leading-relaxed font-light tracking-wide max-w-xl mx-auto px-4">
+                COLLABORATE, PLAN AND EXECUTE WITH UNPRECEDENT CLARITY AND EFFICIENCY
               </p>
             </motion.div>
 

@@ -25,7 +25,7 @@ const AnimatedText = React.memo(({
   customAccentIndex?: number 
 }) => {
   return (
-    <>{text.split(' ').map((word, wordIndex) => (
+    <>{text.toUpperCase().split(' ').map((word, wordIndex) => (
       <span key={wordIndex} className={`inline-block mr-2 ${wordClassName}`}>
         {word.split('').map((letter, letterIndex) => (
           <motion.span
@@ -44,7 +44,7 @@ const AnimatedText = React.memo(({
                 : ''
             }`}
           >
-            {letter}
+            {letter.toUpperCase()}
           </motion.span>
         ))}
       </span>
@@ -60,20 +60,20 @@ const AdvantagesSection: React.FC = () => {
   const advantages = useMemo(() => [
     {
       icon: MessageCircle,
-      title: 'Seamless Communication',
-      description: 'Connect effortlessly with intuitive interfaces',
+      title: 'SEAMLESS COMMUNICATION',
+      description: 'CONNECT EFFORTLESSLY WITH INTUITIVE INTERFACES',
       color: 'text-blue-600'
     },
     {
       icon: Calendar,
-      title: 'Events & Meetings',
-      description: 'Access and create engaging and even luxury events with ease',
+      title: 'EVENTS & MEETINGS',
+      description: 'ACCESS AND CREATE ENGAGING AND EVEN LUXURY EVENTS WITH EASE',
       color: 'text-green-600'
     },
     {
       icon: Brain,
-      title: 'Smart Interactions',
-      description: 'Intelligent features that enhance communication. Our AI suggestions will help to tailor your approach and come up with the best ideas',
+      title: 'SMART INTERACTIONS',
+      description: 'INTELLIGENT FEATURES THAT ENHANCE COMMUNICATION. OUR AI SUGGESTIONS WILL HELP TO TAILOR YOUR APPROACH AND COME UP WITH THE BEST IDEAS',
       color: 'text-purple-600'
     }
   ], []);
@@ -98,7 +98,7 @@ const AdvantagesSection: React.FC = () => {
   return (
     <Section 
       id="advantages" 
-      title="Advantages" 
+      title="ADVANTAGES" 
       className="relative min-h-screen bg-[#030303] flex items-center justify-center py-8 overflow-hidden"
     >
       <motion.div 
@@ -123,7 +123,7 @@ const AdvantagesSection: React.FC = () => {
             className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 sm:mb-8 tracking-tighter fancy-title"
           >
             <AnimatedText 
-              text="Empower Your Communication" 
+              text="EMPOWER YOUR COMMUNICATION" 
               letterClassName="bg-clip-text text-transparent bg-gradient-to-b from-white to-white/80"
               customAccentIndex={2}
             />
@@ -134,7 +134,7 @@ const AdvantagesSection: React.FC = () => {
             className="text-base sm:text-lg md:text-xl text-white/70 max-w-3xl mx-auto mb-8 sm:mb-12 neon-title"
           >
             <AnimatedText 
-              text="Discover how our platform transforms the way you connect and collaborate" 
+              text="DISCOVER HOW OUR PLATFORM TRANSFORMS THE WAY YOU CONNECT AND COLLABORATE" 
               letterClassName="bg-clip-text text-transparent bg-gradient-to-b from-white to-white/80"
             />
           </motion.p>
@@ -176,13 +176,12 @@ const AdvantagesSection: React.FC = () => {
                   <div className="flex flex-col items-center">
                     <IconComponent 
                       icon={advantage.icon} 
-                      label={advantage.title} 
-                      onHover={() => handleIconHover(advantage.title)}
-                      onLeave={() => console.log(`Left ${advantage.title}`)}
-                      className="w-10 h-10 mb-1 text-white/80 hover:text-white transition-colors"
+                      label={advantage.title.toUpperCase()} 
+                      onHover={() => handleIconHover(advantage.title.toUpperCase())}
+                      onLeave={() => console.log(`Left ${advantage.title.toUpperCase()}`)}
                     />
                     <p className="text-[10px] text-white/70 text-center">
-                      {advantage.description}
+                      {advantage.description.toUpperCase()}
                     </p>
                   </div>
                 </motion.div>
