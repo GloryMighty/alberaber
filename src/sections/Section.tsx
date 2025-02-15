@@ -12,9 +12,12 @@ interface SectionProps {
 
 const Section: React.FC<SectionProps> = ({ id, title, children, className }) => {
   return (
-    <section id={id} className={className}>
+    <section 
+      id={id} 
+      className={`bg-[#030303] ${className}`}
+    >
       {title && <h2>{title}</h2>}
-      <div>
+      <div className="h-full">
         {children}
       </div>
     </section>

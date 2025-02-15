@@ -96,11 +96,20 @@ const AdvantagesSection: React.FC = () => {
   };
 
   return (
-    <Section id="advantages" title="Advantages" className="relative min-h-screen bg-[#030303] dark:bg-social-primary/10 flex items-center justify-center py-16 overflow-hidden">
+    <Section 
+      id="advantages" 
+      title="Advantages" 
+      className="relative min-h-screen bg-[#030303] flex items-center justify-center py-8 overflow-hidden"
+    >
       <motion.div 
         className="absolute top-0 left-0 w-full h-full"
       >
-        <NetworkBackground />
+        <NetworkBackground 
+          nodeCount={100}  // Increased node count for more coverage
+          heightMultiplier={2}  // Cover two screens
+          opacity={0.5}  // Increased opacity for better visibility
+          strokeColor="rgba(255, 255, 255, 0.3)"  // More prominent stroke color
+        />
       </motion.div>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div 
@@ -149,7 +158,7 @@ const AdvantagesSection: React.FC = () => {
               return (
                 <motion.div
                   key={advantage.title}
-                  initial={{ opacity: 0, scale: 0.5 }}
+                  initial={{ opacity: 1, scale: 1 }}
                   animate={{ 
                     opacity: 1, 
                     scale: 1,
@@ -234,8 +243,8 @@ const AdvantagesSection: React.FC = () => {
           <StatisticalVisuals />
         </motion.div>
       </div>
-      <SectionSeparator /> 
-      <GlassSeparator />
+      <SectionSeparator />
+      <GlassSeparator variant="metallic" />
     </Section>
   );
 };

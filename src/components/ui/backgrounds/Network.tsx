@@ -15,12 +15,21 @@ interface Connection {
   points: { x: number; y: number }[]
 }
 
-interface Props {
+interface NetworkBackgroundProps {
   nodeCount?: number
-  children?: React.ReactNode
+  className?: string
+  opacity?: number
+  strokeColor?: string
+  heightMultiplier?: number
 }
 
-const NetworkBackground: React.FC<Props> = ({ nodeCount = 49, children }) => {
+const NetworkBackground: React.FC<NetworkBackgroundProps> = ({ 
+  nodeCount = 49, 
+  className = "absolute inset-0", 
+  opacity = 1,
+  strokeColor = "rgba(255, 255, 255, 0.2)",
+  heightMultiplier = 1
+}) => {
   const [nodes, setNodes] = useState<Node[]>([])
   const [connections, setConnections] = useState<Connection[]>([])
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
@@ -28,9 +37,9 @@ const NetworkBackground: React.FC<Props> = ({ nodeCount = 49, children }) => {
   const updateDimensions = useCallback(() => {
     setDimensions({
       width: window.innerWidth,
-      height: window.innerHeight,
+      height: window.innerHeight * heightMultiplier
     })
-  }, [])
+  }, [heightMultiplier])
 
   useEffect(() => {
     updateDimensions()
@@ -105,13 +114,13 @@ const NetworkBackground: React.FC<Props> = ({ nodeCount = 49, children }) => {
   }, [dimensions, nodeCount, generateGeometricConnections])
 
   return (
-    <div className="fixed inset-0 bg-gray-900 overflow-hidden">
+    <div className={`${className} pointer-events-none`}>
       <svg className="w-full h-full">
-        {connections.map((connection, index) => (
+        {connections.map((connection) => (
           <motion.path
             key={connection.id}
             d={`M ${connection.points.map((p) => `${p.x} ${p.y}`).join(" L ")}`}
-            stroke="rgba(255, 255, 255, 0.2)"
+            stroke={strokeColor}
             strokeWidth={1}
             fill="none"
             initial={{ pathLength: 0 }}
@@ -125,6 +134,7 @@ const NetworkBackground: React.FC<Props> = ({ nodeCount = 49, children }) => {
                 repeat: Number.POSITIVE_INFINITY,
               },
             }}
+            style={{ opacity }}
           />
         ))}
         {nodes.map((node) => (
@@ -137,13 +147,12 @@ const NetworkBackground: React.FC<Props> = ({ nodeCount = 49, children }) => {
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ duration: 0.5 }}
+            style={{ opacity }}
           />
         ))}
       </svg>
-      {children}
     </div>
   )
 }
 
 export default NetworkBackground
-

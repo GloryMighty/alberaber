@@ -4,24 +4,53 @@ import { motion } from 'framer-motion';
 /*
   SectionSeparator
   ---------------
-  This component serves as a reusable visual separator between sections.
-  It utilizes Framer Motion to add subtle animation effects such as fade-in and scale effects.
-  The design reflects a modern and minimal style appropriate for networking apps.
-  It can be easily customized via props if needed in the future.
+  Provides a subtle, smooth transition between sections.
+  Uses a soft gradient and minimal animation to create 
+  a gentle visual break without disrupting the page flow.
 */
 
 interface SectionSeparatorProps {
   className?: string; // Optional custom CSS classes
+  variant?: 'default' | 'soft' | 'minimal'; // Different separator styles
 }
 
-const SectionSeparator: React.FC<SectionSeparatorProps> = ({ className }) => {
+const SectionSeparator: React.FC<SectionSeparatorProps> = ({ 
+  className = '', 
+  variant = 'soft' 
+}) => {
+  // Variants for different separator styles
+  const variantStyles = {
+    default: 'bg-gradient-to-r from-transparent via-blue-500/20 to-transparent',
+    soft: 'bg-gradient-to-r from-transparent via-white/10 to-transparent',
+    minimal: 'bg-gradient-to-r from-transparent via-white/5 to-transparent'
+  };
+
   return (
     <motion.div
-      initial={{ opacity: 0, scaleX: 0.8 }}
-      animate={{ opacity: 1, scaleX: 1 }}
-      transition={{ duration: 0.6, ease: 'easeOut' }}
-      className={`w-full h-2 mt-8 mb-4 overflow-hidden relative z-50 ${className || ''}`}
-      style={{ background: 'linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(33,150,243,0.5) 50%, rgba(0,0,0,0) 100%)' }}
+      initial={{ 
+        opacity: 0, 
+        scaleX: 0.9,
+        y: 20 
+      }}
+      animate={{ 
+        opacity: 1, 
+        scaleX: 1,
+        y: 0 
+      }}
+      transition={{ 
+        duration: 0.8, 
+        ease: 'easeInOut' 
+      }}
+      className={`
+        w-full 
+        h-[2px] 
+        my-4 
+        overflow-hidden 
+        relative 
+        z-50 
+        ${variantStyles[variant]} 
+        ${className}
+      `}
     />
   );
 };

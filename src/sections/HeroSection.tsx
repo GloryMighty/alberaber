@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils"
 import { Link } from "react-router-dom"
 import { Button } from "@/components/ui/button"
 import Section from './Section';
+import NetworkBackground from "@/components/ui/backgrounds/Network"
 
 const pacifico = {
   className: "font-pacifico",
@@ -106,6 +107,13 @@ export default function HeroGeometric({
 
   return (
     <Section id="hero" title="Hero" className="relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-[#030303]">
+      <NetworkBackground 
+        nodeCount={64} 
+        className="absolute inset-0 z-0" 
+        opacity={0.1} 
+        strokeColor="rgba(255, 255, 255, 0.1)"
+      />
+
       <motion.div 
         className="absolute inset-0 bg-gradient-to-br from-indigo-500/[0.05] via-transparent to-rose-500/[0.05] blur-3xl" 
       />
@@ -168,7 +176,7 @@ export default function HeroGeometric({
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center">
-              <span className="text-2xl font-bold text-white">DigiCard</span>
+              <span className="text-2xl font-bold animated-gradient-title ">DIGICard</span>
             </div>
             <div className="flex items-center space-x-4">
               <Link to="/teams" className="text-white/70 hover:text-white transition-colors mr-2">

@@ -37,12 +37,12 @@ export default function Auth() {
           <Button 
             variant="ghost" 
             onClick={goToHome} 
-            className="text-social-primary hover:bg-gray-100"
+            className="text-social-primary hover:bg-gray-100 rounded-full p-2"
           >
             Home
           </Button>
         </div>
-        <h1 className="text-2xl font-bold text-center mb-8 text-social-primary">
+        <h1 className="text-2xl font-bold text-center mb-8 animated-gradient-title">
           {isSignUp ? "Create an Account" : "DigiCard"}
         </h1>
         <form onSubmit={handleSubmit} className="space-y-4">

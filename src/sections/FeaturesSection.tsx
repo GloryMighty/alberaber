@@ -9,6 +9,7 @@ import IconComponent from '@/components/ui/IconComponent';
 import GlassSeparator from '@/components/ui/GlassSeparator';
 import Section from './Section';
 import SectionSeparator from './SectionSeparator';
+import NetworkBackground from "@/components/ui/backgrounds/Network"
 
 // Separate interface for feature icon props
 interface FeatureIconProps {
@@ -113,8 +114,16 @@ const CallToActionSection: React.FC = () => {
     <>
       <Section 
         id="features-section" 
-        className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center overflow-hidden relative"
+        className="min-h-screen bg-[#030303] flex items-center justify-center py-8 overflow-hidden relative"
       >
+        {/* Add NetworkBackground */}
+        <NetworkBackground 
+          nodeCount={49} 
+          className="absolute inset-0 z-0" 
+          opacity={0.1} 
+          strokeColor="rgba(100, 100, 255, 0.1)"
+        />
+
         {/* Background Elements */}
         {backgroundElements.map((Element, index) => (
           <motion.div 
@@ -133,7 +142,7 @@ const CallToActionSection: React.FC = () => {
         </div>
       </Section>
       <SectionSeparator />
-      <GlassSeparator />
+      <GlassSeparator variant="metallic" />
     </>
   );
 };

@@ -1,4 +1,3 @@
-
 import { Plus, QrCode, MessageSquare, Users } from "lucide-react";
 import Layout from "@/components/Layout";
 import { Card } from "@/components/ui/card";
@@ -54,7 +53,7 @@ const Index = () => {
     <Layout>
       <div className="max-w-6xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Welcome back!</h1>
+          <h1 className="text-3xl font-bold metallic-title mb-2">Welcome back!</h1>
           <p className="text-gray-600">Here's what's happening in your network</p>
         </div>
 
