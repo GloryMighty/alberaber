@@ -23,7 +23,6 @@ export default function IconComponent({ icon: Icon, label, onHover, onLeave }: I
                    border border-gray-700"
         whileHover={{
           boxShadow: "-30px 30px 100px rgba(0,0,0,0.7)",
-          dropShadow: "0 0 15px rgba(59, 130, 246, 0.5)",
           borderColor: "rgba(59, 130, 246, 0.5)",
         }}
       >
