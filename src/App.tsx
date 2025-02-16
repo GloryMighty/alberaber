@@ -152,61 +152,60 @@ const App = () => {
     scrollToSection, 
     goToNextSection, 
     goToPreviousSection,
-    sectionsProgress
+    sectionsProgress 
   } = useScrollNavigation(landingPageSections);
-
-  // Map section IDs to their respective components
-  const sectionComponents = {
-    'hero': HeroGeometric,
-    'advantages': AdvantagesSection,
-    'features-section': FeaturesSection,
-    'legal-section': LegalSection
-  };
 
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <Toaster />
-        <Sonner />
         <BrowserRouter>
           <AuthProvider>
             <Routes>
-              <Route path="/" element={
-                <div className="scroll-smooth">
-                  {/* Navigation Elements */}
-                  <NavigationButtons 
-                    goToNextSection={goToNextSection}
-                    goToPreviousSection={goToPreviousSection}
-                    currentSection={currentSection}
-                    sections={landingPageSections}
-                  />
-                  <ProgressIndicator 
-                    currentSection={currentSection}
-                    sections={landingPageSections}
-                    scrollToSection={scrollToSection}
-                    sectionsProgress={sectionsProgress}
-                  />
+              <Route 
+                path="/" 
+                element={
+                  <div className="relative">
+                    {/* Navigation Buttons */}
+                    <NavigationButtons 
+                      goToNextSection={goToNextSection}
+                      goToPreviousSection={goToPreviousSection}
+                      currentSection={currentSection}
+                      sections={landingPageSections}
+                    />
 
-                  {/* Render Sections */}
-                  {landingPageSections.map((section, index) => {
-                    const SectionComponent = sectionComponents[section.id as keyof typeof sectionComponents];
-                    const backgroundClasses = [
-                      'bg-white', 
-                      'bg-gray-50', 
-                      'bg-blue-50', 
-                      'bg-indigo-50'
-                    ];
-                    const sectionBackground = backgroundClasses[index % backgroundClasses.length];
-                    
-                    return (
-                      <div key={section.id} className={`min-h-screen flex flex-col justify-center ${sectionBackground}`}>
-                        <SectionComponent />
-                        {index < landingPageSections.length - 1 && <SectionSeparator />}
-                      </div>
-                    );
-                  })}
-                </div>
-              } />
+                    {/* Progress Indicator */}
+                    <ProgressIndicator 
+                      currentSection={currentSection}
+                      sections={landingPageSections}
+                      scrollToSection={scrollToSection}
+                      sectionsProgress={sectionsProgress}
+                    />
+
+                    <div className="min-h-screen">
+                      {landingPageSections.map((section, index) => {
+                        const SectionComponent = {
+                          'hero': HeroGeometric,
+                          'advantages': AdvantagesSection,
+                          'features-section': FeaturesSection,
+                          'legal-section': LegalSection
+                        }[section.id];
+
+                        return (
+                          <div key={section.id}>
+                            {SectionComponent && <SectionComponent />}
+                            {index < landingPageSections.length - 1 && (
+                              <SectionSeparator 
+                                prevSectionBackground={section.backgroundColor} 
+                                nextSectionBackground={landingPageSections[index + 1].backgroundColor} 
+                              />
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                } 
+              />
               <Route path="/auth" element={<Auth />} />
               <Route
                 path="/home"

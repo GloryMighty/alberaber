@@ -27,10 +27,10 @@ const createBackgroundElements = () => [
 // Separate component for feature icons grid
 const FeatureIconsGrid: React.FC = () => {
   const featureIcons: FeatureIconProps[] = [
-    { icon: Rocket, label: 'Launch', description: 'Accelerate your journey' },
-    { icon: Target, label: 'Focus', description: 'Precision in every move' },
-    { icon: Zap, label: 'Speed', description: 'Lightning-fast execution' },
-    { icon: Star, label: 'Excellence', description: 'Strive for the best' }
+    { icon: Rocket, label: 'START', description: 'Accelerate your journey' },
+    { icon: Target, label: 'FOCUS', description: 'Precision in every move' },
+    { icon: Zap, label: 'SPEED', description: 'Lightning-fast execution' },
+    { icon: Star, label: 'EXCELLENCE', description: 'Strive for the best' }
   ];
 
   const handleIconHover = (label: string) => {

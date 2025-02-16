@@ -17,13 +17,49 @@ const AnimatedText = React.memo(({
   text, 
   wordClassName = '', 
   letterClassName = '', 
-  customAccentIndex 
+  customAccentIndex,
+  variant = 'default' 
 }: { 
   text: string, 
   wordClassName?: string, 
   letterClassName?: string, 
-  customAccentIndex?: number 
+  customAccentIndex?: number,
+  variant?: 'default' | 'crossPage' 
 }) => {
+  if (variant === 'crossPage') {
+    return (
+      <div className="relative w-full">
+        {text.toUpperCase().split(' ').map((word, wordIndex) => (
+          <span 
+            key={wordIndex} 
+            className={`inline-block mr-2 relative z-20 ${wordClassName} ${
+              letterClassName
+            } ${customAccentIndex !== undefined && wordIndex === customAccentIndex 
+              ? 'text-social-accent' 
+              : ''
+            }`}
+          >
+            {word}
+          </span>
+        ))}
+        <motion.div
+          initial={{ x: '-100%' }}
+          animate={{ x: ['100%', '-100%'] }}
+          transition={{
+            duration: 3,
+            repeat: Infinity,
+            ease: 'linear'
+          }}
+          className="absolute top-0 left-0 w-full h-full z-10 pointer-events-none"
+          style={{
+            background: 'linear-gradient(to right, transparent 0%, rgba(255,255,255,0.3) 50%, transparent 100%)',
+            mixBlendMode: 'color-dodge'
+          }}
+        />
+      </div>
+    );
+  }
+
   return (
     <>{text.toUpperCase().split(' ').map((word, wordIndex) => (
       <span key={wordIndex} className={`inline-block mr-2 ${wordClassName}`}>
@@ -120,12 +156,14 @@ const AdvantagesSection: React.FC = () => {
           <motion.h2 
             variants={fadeUpVariants}
             custom={1}
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 sm:mb-8 tracking-tighter fancy-title"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 sm:mb-8 tracking-tighter fancy-title relative text-white drop-shadow-md"
           >
+            <br /> 
             <AnimatedText 
               text="EMPOWER YOUR COMMUNICATION" 
               letterClassName="bg-clip-text text-transparent bg-gradient-to-b from-white to-white/80"
               customAccentIndex={2}
+              variant="crossPage"
             />
           </motion.h2>
           <motion.p 
