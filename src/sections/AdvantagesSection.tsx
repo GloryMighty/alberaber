@@ -1,4 +1,4 @@
-import React, { useMemo, useRef } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { 
   MessageCircle,    // Communication icon
@@ -129,6 +129,63 @@ const AdvantagesSection: React.FC = () => {
 
   const handleIconHover = (title: string) => {
     console.log(`Hovering over ${title}`);
+  };
+
+  const [selectedPhoto, setSelectedPhoto] = useState<string | null>(null);
+
+  // Sample public gallery photos (replace with actual paths)
+  const galleryPhotos = [
+    '/public/backgroundhero.jpg',
+    '/public/backgroundhero.jpg',
+    '/public/backgroundhero.jpg'
+  ];
+
+  // Photo gallery grid section
+  const PhotoGalleryGrid = () => (
+    <motion.div 
+      className="grid grid-cols-3 gap-4 mt-12"
+      initial="hidden"
+      animate="visible"
+    >
+      {galleryPhotos.map((photo, index) => (
+        <motion.div
+          key={photo}
+          variants={fadeUpVariants}
+          custom={index}
+          className="relative group overflow-hidden rounded-lg shadow-lg cursor-pointer"
+          onClick={() => setSelectedPhoto(photo)}
+        >
+          <img 
+            src={photo} 
+            alt={`Public Gallery Photo ${index + 1}`} 
+            className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
+          />
+          <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300" />
+        </motion.div>
+      ))}
+    </motion.div>
+  );
+
+  // Photo modal component
+  const PhotoModal = () => {
+    if (!selectedPhoto) return null;
+
+    return (
+      <motion.div 
+        className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        onClick={() => setSelectedPhoto(null)}
+      >
+        <motion.img 
+          src={selectedPhoto}
+          alt="Selected Photo"
+          className="max-w-[90%] max-h-[90%] rounded-lg shadow-2xl"
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+        />
+      </motion.div>
+    );
   };
 
   return (
@@ -279,7 +336,14 @@ const AdvantagesSection: React.FC = () => {
         >
           <StatisticalVisuals />
         </motion.div>
+
+        {/* Add PhotoGalleryGrid after existing content */}
+        <PhotoGalleryGrid />
       </div>
+
+      {/* Photo Modal */}
+      <PhotoModal />
+
       <SectionSeparator />
       <GlassSeparator variant="metallic" />
     </Section>

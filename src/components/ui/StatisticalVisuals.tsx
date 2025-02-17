@@ -9,7 +9,6 @@ const StatisticalVisuals: React.FC = () => {
       icon: Network,
       title: 'Network Connections',
       value: '250K+',
-      description: 'Active global users',
       color: 'text-blue-500',
       percentage: 92, // High connectivity rate
       details: 'Rapid user growth in professional networks'
@@ -18,7 +17,6 @@ const StatisticalVisuals: React.FC = () => {
       icon: TrendingUp,
       title: 'Business Efficiency',
       value: '68%',
-      description: 'Productivity increase',
       color: 'text-green-500',
       percentage: 68, // Realistic productivity improvement
       details: 'Measured across multiple enterprise clients'
@@ -27,7 +25,6 @@ const StatisticalVisuals: React.FC = () => {
       icon: Globe,
       title: 'Global Reach',
       value: '45+',
-      description: 'Countries connected',
       color: 'text-purple-500',
       percentage: 76, // Representing extensive international presence
       details: 'Expanding into emerging markets'
@@ -64,9 +61,6 @@ const StatisticalVisuals: React.FC = () => {
           <h3 className="text-xl font-bold text-white mb-2">{stat.value}</h3>
           <p className="text-sm text-white/70 mb-2 text-center">{stat.title}</p>
           
-          <p className="text-xs text-white/50 mt-2 text-center">
-            {stat.description}
-          </p>
 
           {/* Tooltip-like additional details */}
           <div className="

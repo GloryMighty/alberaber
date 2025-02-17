@@ -108,15 +108,23 @@ export default function HeroGeometric({
 
   return (
     <Section id="hero" title="Hero" className="relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-[#030303]">
+      <div 
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat" 
+        style={{ 
+          backgroundImage: "url('/backgroundhero.png')", 
+          opacity: 0.2,  // Slightly transparent to allow underlying effects
+          zIndex: 1 
+        }} 
+      />
       <NetworkBackground 
         nodeCount={64} 
-        className="absolute inset-0 z-0" 
-        opacity={0.1} 
+        className="absolute inset-0 z-10" 
+        opacity={0.05} 
         strokeColor="rgba(255, 255, 255, 0.1)"
       />
 
       <motion.div 
-        className="absolute inset-0 bg-gradient-to-br from-indigo-500/[0.05] via-transparent to-rose-500/[0.05] blur-3xl" 
+        className="absolute inset-0 bg-gradient-to-br from-indigo-500/[0.05] via-transparent to-rose-500/[0.05] blur-3xl z-20" 
       />
 
       <motion.div 
